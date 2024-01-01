@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted, computed, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 import EventService from '@/services/EventService.js'
 import EventCard from '@/components/EventCard.vue'
 
+const router = useRouter()
 const props = defineProps(['page'])
 
 const events = ref(null)
@@ -45,8 +47,8 @@ onMounted(() => {
         events.value = response.data
         totalEvents.value = response.headers['x-total-count']
       })
-      .catch((error) => {
-        console.log(error)
+      .catch(() => {
+        router.push({ name: 'NetworkError' })
       })
   })
 })
